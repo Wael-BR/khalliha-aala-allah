@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        git 'Default'
+        git 'git'
         jdk 'JAVA_HOME'
         maven 'M2_HOME'
 
@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'Wael-BR', url: 'https://github.com/Wael-BR/khalliha-aala-allah.git'
+                git branch: 'master', url: 'https://github.com/Wael-BR/khalliha-aala-allah.git'
             }
         }
 
