@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        git 'default'
+        git 'Default'
         jdk 'JAVA_HOME'
         maven 'M2_HOME'
 
