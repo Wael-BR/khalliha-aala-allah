@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'Wael-BR', url: 'https://github.com/Wael-BR/Devops.git'
+                git branch: 'master', url: 'https://github.com/Wael-BR/khalliha-aala-allah.git'
             }
         }
 
