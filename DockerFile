@@ -1,4 +1,4 @@
-FROM openjdk:17-oracle
+FROM openjdk:21-oracle
 
 ADD target/achat-1.0.jar achat-1.0.jar
 
