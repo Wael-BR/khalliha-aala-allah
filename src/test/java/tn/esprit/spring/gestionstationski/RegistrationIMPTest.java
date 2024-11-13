@@ -105,23 +105,30 @@ public class RegistrationIMPTest {
             verify(registrationRepository, times(1)).save(any(Registration.class));
         }
 
-        @Test
-        void testAddRegistrationAndAssignToSkierAndCourse_FullCourse() {
-            // Arrange: Mocking repository interactions
-            when(skierRepository.findById(1L)).thenReturn(Optional.of(skier));
-            when(courseRepository.findById(1L)).thenReturn(Optional.of(course));
-            when(registrationRepository.countDistinctByNumWeekAndSkier_NumSkierAndCourse_NumCourse(anyInt(), anyLong(), anyLong())).thenReturn(0L);
-            when(registrationRepository.countByCourseAndNumWeek(any(Course.class), anyInt())).thenReturn(6L); // Course is full
+    @Test
+    void testAddRegistrationAndAssignToSkierAndCourse_FullCourse() {
+        // Arrange: Setting up mock behavior
+        Skier skier = new Skier(); // Ensure to initialize skier as needed
+        Course course = new Course(); // Ensure to initialize course as needed
+        Registration registration = new Registration(); // Ensure to initialize registration as needed
 
-            // Act: Calling the service method
-            Registration result = registrationServices.addRegistrationAndAssignToSkierAndCourse(registration, 1L, 1L);
+        when(skierRepository.findById(1L)).thenReturn(Optional.of(skier));
+        when(courseRepository.findById(1L)).thenReturn(Optional.of(course));
 
-            // Assert: Verifying the expected outcome
-            assertNull(result); // The registration should return null because the course is full
-            verify(registrationRepository, times(0)).save(any(Registration.class)); // save should not be called
-        }
+        // Mocking behavior to simulate a full course
+        when(registrationRepository.countDistinctByNumWeekAndSkier_NumSkierAndCourse_NumCourse(anyInt(), anyLong(), anyLong())).thenReturn(0L);
+        when(registrationRepository.countByCourseAndNumWeek(any(Course.class), anyInt())).thenReturn(6L); // Assuming course capacity limit is 6
 
-        @Test
+        // Act: Calling the method under test
+        Registration result = registrationServices.addRegistrationAndAssignToSkierAndCourse(registration, 1L, 1L);
+
+        // Assert: Verifying that the result is null due to a full course
+        assertNull(result, "Expected the result to be null because the course is full.");
+        verify(registrationRepository, times(0)).save(any(Registration.class)); // Ensure save is not called when the course is full
+    }
+
+
+    @Test
         void testAddRegistrationAndAssignToSkierAndCourse_SkierNotFound() {
             // Arrange: Mocking repository interactions
             when(skierRepository.findById(1L)).thenReturn(Optional.empty());
